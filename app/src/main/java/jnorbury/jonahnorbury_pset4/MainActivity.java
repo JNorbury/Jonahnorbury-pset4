@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +18,6 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
 
     public DBHelper dbhelp;
-    public SQLiteDatabase db;
     private ListView tasklistview;
 
     @Override
@@ -29,14 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private void showAll() {
         dbhelp = new DBHelper(this);
 
-//        String[] dummydata = {"Drink water", "Sniff coke", "Get Paid"};
-
         tasklistview = (ListView) findViewById(R.id.tasklistview);
         final ArrayList<String> tasklist = new ArrayList<>();
-
-//        for (int i = 0; i < dummydata.length; i++) {
-//            tasklist.add(i, dummydata[i]);
-//        }
 
         final ArrayList<HashMap<String, String>> dbtasks = dbhelp.read();
         for (int i = 0; i < dbtasks.size(); i++) {
@@ -67,21 +62,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // optional method onResume
-//    @Override
-//    protected void onResume(Bundle savedInstanceState) {
-//        super.onResume();
-//        setContentView(R.layout.activity_main);
-//    }
-
     public void addNewToDoTask(View view) {
         EditText edittext = (EditText) findViewById(R.id.editText);
+        String s = edittext.getText().toString();
+        if (s.matches("")) {
+            Toast.makeText(this, jnorbury.jonahnorbury_pset4.R.string.no_task_given_toast_text, Toast.LENGTH_SHORT).show();
+            return;
+        }
         ToDoTask currentToDoTask = new ToDoTask();
         currentToDoTask.setToDoTask_name(edittext.getText().toString());
         dbhelp.create(currentToDoTask);
 
         showAll();
-
         edittext.setText("");
     }
 }
