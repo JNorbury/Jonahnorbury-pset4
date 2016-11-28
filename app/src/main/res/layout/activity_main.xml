@@ -18,8 +18,8 @@
         android:textSize="36sp"
         android:id="@+id/textView3"
         android:textAlignment="center"
-        android:background="@android:color/darker_gray"
-        android:textColor="@android:color/white" />
+        android:background="@android:color/white"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:text="@string/todo_add_task_hint_edit_text"
